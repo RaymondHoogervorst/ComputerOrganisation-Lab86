@@ -1,5 +1,6 @@
 .data
 outputstr: .asciz "Assignment 2: inout\n"
+inputlabel: .asciz "Please enter a number: "
 inputformat: .asciz "%d"
 outputformat: .asciz "%d\n"
 
@@ -13,6 +14,10 @@ outputformat: .asciz "%d\n"
 inout:
    pushq %rbp;             #storing old base pointer
    movq %rsp, %rbp         #setting new base pointer
+
+   movq $0, %rax           #printing input label
+   movq $inputlabel, %rdi
+   call printf
 
    subq $8, %rsp           #setting parameters for scanf
    leaq -8(%rbp), %rsi
