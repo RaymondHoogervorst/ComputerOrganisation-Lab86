@@ -64,7 +64,7 @@ inout:
 
 
 # ***********************************************************
-# * Subroutine : scangood                                   *
+# * Subroutine : factorial                                   *
 # * Arguments :                                             *
 #        =number: the number to create the factorial of     *
 # * Description: calculates and returns a factorial         *
