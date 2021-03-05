@@ -9,8 +9,9 @@
 # %rax = temp values                #
 # **********************************#
 
-sha1_chunk:
+.global sha1_chunk
 
+sha1_chunk:
    # extend words to 80
    movq $16, %rdx
    extensionloop:
