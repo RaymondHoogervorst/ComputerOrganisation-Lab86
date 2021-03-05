@@ -3,6 +3,7 @@
 # %rdi = index of h0                #
 # %rsi = index of first word        #
 # %rcx = index of any loop          #
+# %rdx = data pointer               #
 # %r8 = f                           #
 # %r9 = k                           #
 # %r10d to %r14d = a to e           #
@@ -14,9 +15,18 @@
 sha1_chunk:
    # extend words to 80
    movq $16, %rcx
+   movq %rsi, %rdx
+   addq $64, %rdx
+
    extensionloop:
+      movl -12(%rsi), %eax
+      xorl -32(%rsi), %eax
+      xorl -56(%rsi), %eax
+      xorl -64(%rsi), %eax
+      roll $1, %eax
+      movl %eax, (%rsi)
 
-
+      addq $4, %rdx
       incq %rcx
       cmpq $79, %rcx
       jle extensionloop
