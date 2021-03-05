@@ -26,13 +26,13 @@ sha1_chunk:
    movq $0, %rdx
    mainloop:
       # determine quarter
-      cmpq %rdx, $19
+      cmpq $19, %rdx
       jle first
-      cmpq %rdx, $39
+      cmpq $39, %rdx
       jle second
-      cmpq %rdx, $59
+      cmpq $59, %rdx
       jle third
-      cmpq %rdx, $19
+      cmpq $79, %rdx
       jle fourth
       jmp endloop
 
