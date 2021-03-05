@@ -1,5 +1,5 @@
 .data
-outputstr: .asciz "Assignment 2: inout\n"
+outputstr: .asciz "Assignment 4: factorial\n"
 inputlabel: .asciz "Please enter a number: "
 inputformat: .asciz "%d"
 outputformat: .asciz "%d\n"
@@ -64,7 +64,7 @@ inout:
 
 
 # ***********************************************************
-# * Subroutine : factorial                                   *
+# * Subroutine : factorial                                  *
 # * Arguments :                                             *
 #        =number: the number to create the factorial of     *
 # * Description: calculates and returns a factorial         *
@@ -94,10 +94,7 @@ main: #entry point
    movq $outputstr, %rdi      #set adress of string
    call printf                #call subroutine to display message
 
-   call inout
-
-   popq %rdi                  #storing input in register
-   popq %rsi         
+   call inout     
 
 
 end:
