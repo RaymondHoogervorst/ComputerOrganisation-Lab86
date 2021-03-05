@@ -39,8 +39,12 @@ sha1_chunk:
    movl 16(%rdi), %r14d
 
    # main loop
+   movq %rsi, %rdx
    movq $0, %rcx
    mainloop:
+
+      movl (%rsi), %eax
+      movl %eax, (%rdi)
    
       # determine quarter
       cmpq $19, %rcx
@@ -91,6 +95,21 @@ sha1_chunk:
          jmp repeat
 
       repeat:
+         movl %r10d, %eax
+         roll $5, %eax
+         addl %r8d, %eax
+         addl %r14d, %eax
+         addl %r9d, %eax
+         addl (%rdx), %eax
+
+         movl %r13d, %r14d
+         movl %r12d, %r13d
+         movl %r11d, %r12d
+         roll $30, %r12d
+         movl %r10d, %r11d
+         movl %eax, %r10d
+
+         addq $4, %rdx
          incq %rcx
          jmp mainloop
    endloop:
