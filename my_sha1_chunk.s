@@ -41,6 +41,7 @@ sha1_chunk:
    # main loop
    movq $0, %rcx
    mainloop:
+   
       # determine quarter
       cmpq $19, %rcx
       jle first
@@ -53,16 +54,40 @@ sha1_chunk:
       jmp endloop
 
       first:
+         movl %r11d, %r8d
+         andl %r12d, %r8d
+         movl %r11d, %eax
+         notl %eax
+         andl %r13d, %eax
+         orl  %eax, %r8d
 
+         movl $0x5A827999, %r9d
          jmp repeat
       second:
+         movl %r11d, %r8d
+         xorl %r12d, %r8d
+         xorl %r13d, %r8d
 
+         movl $0x6ED9EBA1, %r9d
          jmp repeat
       third:
+         movl %r11d, %r8d
+         andl %r12d, %r8d
+         movl %r11d, %eax
+         andl %r13d, %eax
+         orl  %eax, %r8d
+         movl %r12d, %eax
+         andl %r13d, %eax
+         orl  %eax, %r8d
 
+         movl $0x8F1BBCDC, %r9d
          jmp repeat
       fourth:
+         movl %r11d, %r8d
+         xorl %r12d, %r8d
+         xorl %r13d, %r8d
 
+         movl $0xCA62C1D6, %r9d
          jmp repeat
 
       repeat:
