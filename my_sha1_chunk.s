@@ -13,6 +13,11 @@
 .global sha1_chunk
 
 sha1_chunk:
+   # save registers r12 to r14
+   pushq %r12
+   pushq %r13
+   pushq %r14
+
    # extend words to 80
    movq $16, %rcx
    movq %rsi, %rdx
@@ -117,5 +122,10 @@ sha1_chunk:
    addl %r12d, 8(%rdi)
    addl %r13d, 12(%rdi)
    addl %r14d, 16(%rdi)
+
+   # restoring registers r12 to r14
+   popq %r14
+   popq %r13
+   popq %r12
 
    ret
