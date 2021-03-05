@@ -5,7 +5,7 @@
 # %rdx = index of any loop          #
 # %r8 = f                           #
 # %r9 = k                           #
-# %r10 to %r14 = a to e             #
+# %r10d to %r14d = a to e           #
 # %rax = temp values                #
 # **********************************#
 
@@ -21,7 +21,11 @@ sha1_chunk:
       jle extensionloop
 
    # initialize hash value
-
+   movl (%rdi), %r10d
+   movl -4(%rdi), %r11d
+   movl -8(%rdi), %r12d
+   movl -12(%rdi), %r13d
+   movl -16(%rdi), %r14d
 
    # main loop
    movq $0, %rdx
