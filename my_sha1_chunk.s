@@ -19,12 +19,12 @@ sha1_chunk:
    addq $64, %rdx
 
    extensionloop:
-      movl -12(%rsi), %eax
-      xorl -32(%rsi), %eax
-      xorl -56(%rsi), %eax
-      xorl -64(%rsi), %eax
+      movl -12(%rdx), %eax
+      xorl -32(%rdx), %eax
+      xorl -56(%rdx), %eax
+      xorl -64(%rdx), %eax
       roll $1, %eax
-      movl %eax, (%rsi)
+      movl %eax, (%rdx)
 
       addq $4, %rdx
       incq %rcx
@@ -42,10 +42,6 @@ sha1_chunk:
    movq %rsi, %rdx
    movq $0, %rcx
    mainloop:
-
-      movl (%rsi), %eax
-      movl %eax, (%rdi)
-   
       # determine quarter
       cmpq $19, %rcx
       jle first
