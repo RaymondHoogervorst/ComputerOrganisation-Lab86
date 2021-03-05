@@ -2,7 +2,7 @@
 # register reference for sha1_chunk #
 # %rdi = index of h0                #
 # %rsi = index of first word        #
-# %rdx = index of any loop          #
+# %rcx = index of any loop          #
 # %r8 = f                           #
 # %r9 = k                           #
 # %r10d to %r14d = a to e           #
@@ -13,11 +13,12 @@
 
 sha1_chunk:
    # extend words to 80
-   movq $16, %rdx
+   movq $16, %rcx
    extensionloop:
 
-      incq %rdx
-      cmpq $79, %rdx
+
+      incq %rcx
+      cmpq $79, %rcx
       jle extensionloop
 
    # initialize hash value
@@ -28,16 +29,16 @@ sha1_chunk:
    movl 16(%rdi), %r14d
 
    # main loop
-   movq $0, %rdx
+   movq $0, %rcx
    mainloop:
       # determine quarter
-      cmpq $19, %rdx
+      cmpq $19, %rcx
       jle first
-      cmpq $39, %rdx
+      cmpq $39, %rcx
       jle second
-      cmpq $59, %rdx
+      cmpq $59, %rcx
       jle third
-      cmpq $79, %rdx
+      cmpq $79, %rcx
       jle fourth
       jmp endloop
 
@@ -55,7 +56,7 @@ sha1_chunk:
          jmp repeat
 
       repeat:
-         incq %rdx
+         incq %rcx
          jmp mainloop
    endloop:
 
