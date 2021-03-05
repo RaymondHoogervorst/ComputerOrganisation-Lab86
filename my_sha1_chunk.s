@@ -1,14 +1,22 @@
-# **********************************#
-# register reference for sha1_chunk #
-# %rdi = index of h0                #
-# %rsi = index of first word        #
-# %rcx = index of any loop          #
-# %rdx = data pointer               #
-# %r8 = f                           #
-# %r9 = k                           #
-# %r10d to %r14d = a to e           #
-# %rax = temp values                #
-# **********************************#
+# *************************************
+# * register reference for sha1_chunk *
+# * %rdi = index of h0                *
+# * %rsi = index of first word        *
+# * %rcx = index of any loop          *
+# * %rdx = data pointer               *
+# * %r8 = f                           *
+# * %r9 = k                           *
+# * %r10d to %r14d = a to e           *
+# * %rax = temp values                *
+# *************************************
+
+# *************************************************************
+# * Subroutine : sha1_chunk                                   *
+# * Arguments :                                               *
+#        =hAdress: the index of the array of state values     *
+#        =hAdress: the index of the array of chunk snippets   *
+# * Description: processes a chunk of data for the SHA1 hash  *
+# *************************************************************
 
 .global sha1_chunk
 
