@@ -22,10 +22,10 @@ sha1_chunk:
 
    # initialize hash value
    movl (%rdi), %r10d
-   movl -4(%rdi), %r11d
-   movl -8(%rdi), %r12d
-   movl -12(%rdi), %r13d
-   movl -16(%rdi), %r14d
+   movl 4(%rdi), %r11d
+   movl 8(%rdi), %r12d
+   movl 12(%rdi), %r13d
+   movl 16(%rdi), %r14d
 
    # main loop
    movq $0, %rdx
@@ -61,5 +61,10 @@ sha1_chunk:
 
 
    # Add hash results
+   addl %r10d, (%rdi)
+   addl %r11d, 4(%rdi)
+   addl %r12d, 8(%rdi)
+   addl %r13d, 12(%rdi)
+   addl %r14d, 16(%rdi)
 
    ret
