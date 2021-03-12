@@ -13,16 +13,15 @@ decPointer:
    decq %rbx
 
 BFprint:
-   movq (%rbx), %rax
-   pushq %rax
+   movq (%rbx), %rdi
    call putchar
 
 BFscan:
    call getchar
-   popq %rax
    movq %rax, (%rbx)
 
 main:
 
+   movq $0, %rdi
    call exit
    
