@@ -1,3 +1,5 @@
+.global main
+
 increment:
    incq (%rbx)
 
@@ -10,7 +12,17 @@ incPointer:
 decPointer:
    decq %rbx
 
+BFprint:
+   movq (%rbx), %rax
+   pushq %rax
+   call putchar
+
+BFscan:
+   call getchar
+   popq %rax
+   movq %rax, (%rbx)
+
 main:
 
-
    call exit
+   
