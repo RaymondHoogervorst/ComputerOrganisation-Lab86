@@ -1,32 +1,124 @@
+.bss
+VARIABLES: .skip 400 # reserving space for BF numbers
+LOOPRETURNS: .skip 100 # reserving space for loop return adresses
+
 .global main
 
-increment:
-   incq (%rbx)
-   ret
+# Register use overview
+# %rbx = the pointer used by brainfuck
+# %rcx = program counter for the BF chars
+# %r10 = pointer to seperate stack of loop starts
 
-decrement:
-   decq (%rbx)
-   ret
 
-incPointer:
+.text
+
+BFincrement:
+   incq VARIABLES(%rbx)
+   jmp beginloop
+
+BFdecrement:
+   decq VARIABLES(%rbx)
+   jmp beginloop
+
+BFincPointer:
    incq %rbx
-   ret
+   jmp beginloop
 
-decPointer:
+BFdecPointer:
    decq %rbx
-   ret
+   jmp beginloop
 
 BFprint:
-   movq (%rbx), %rdi
+   movq VARIABLES(%rbx), %rdi
+   pushq %rcx
+   pushq %rbx
+   pushq %r10
+   pushq %rbp
+   movq %rsp, %rbp
    call putchar
-   ret
+   movq %rbp, %rsp
+   popq %rbp
+   popq %r10
+   popq %rbx
+   popq %rcx
+   jmp beginloop
 
 BFscan:
+   pushq %rcx
+   pushq %rbx
+   pushq %r10
+   pushq %rbp
+   movq %rsp, %rbp
    call getchar
-   movq %rax, (%rbx)
-   ret
+   movq %rbp, %rsp
+   popq %rbp
+   popq %r10
+   popq %rbx
+   popq %rcx
+   movq %rax, VARIABLES(%rbx)
+   jmp beginloop
+
+# TODO make loop skip if value is already 0
+BFstartloop:
+   movq %rcx, LOOPRETURNS(%r10)
+   addq $8, %r10
+   jmp beginloop
+
+BFendloop:
+   cmpq $0, VARIABLES(%rbx)
+   je BFexitloop
+   movq LOOPRETURNS-8(%r10), %rcx
+   jmp beginloop
+BFexitloop:
+   subq $8, %r10
+   jmp beginloop
 
 main:
+   pushq %rbp
+   movq %rsp, %rbp
+   movq %rsp, %rcx
+
+   # TODO push BF code onto stack
+
+   pushq %rbp
+   movq %rsp, %rbp
+
+   movq $0, %r10
+   movq $0, %rbx  # initializing pointers
+   
+beginloop:
+   subq $8, %rcx
+
+   # checking what char to execute
+   movq (%rcx), %rax
+   beforecomp:
+   cmpq $46, (%rcx)
+   je BFprint
+
+   cmpq $44, (%rcx)
+   je BFscan
+
+   cmpq $43, (%rcx)
+   je BFincrement
+   
+   cmpq $45, (%rcx)
+   je BFdecrement
+
+   cmpq $62, (%rcx)
+   je BFincPointer
+
+   cmpq $60, (%rcx)
+   je BFdecPointer
+
+   cmpq $91, (%rcx)
+   je BFstartloop
+
+   cmpq $93, (%rcx)
+   je BFendloop
+
+end:
+   popq %rbp
+   movq %rbp, %rsp
 
    movq $0, %rdi
    call exit
