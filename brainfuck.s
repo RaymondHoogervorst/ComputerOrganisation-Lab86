@@ -7,8 +7,7 @@ LOOPRETURNS: .skip 100 # reserving space for loop return adresses
 # Register use overview
 # %rbx = the pointer used by brainfuck
 # %rcx = program counter for the BF chars
-# %r10 = pointer to seperate stack of loop starts
-
+# %r10 = pointer to loop returns
 
 .text
 
