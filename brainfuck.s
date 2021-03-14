@@ -80,6 +80,14 @@ main:
 
    # TODO push BF code onto stack
 
+   # checking if additional push is needed to prevent seg faults
+   movb %spl, %dil
+   shlb $4, %dil
+   cmpb $0, %dil
+   jne initialize
+   subq $8, %rsp
+
+   initialize:
    pushq %rbp
    movq %rsp, %rbp
 
