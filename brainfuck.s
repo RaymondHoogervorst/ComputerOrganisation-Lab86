@@ -85,7 +85,7 @@ main:
    shlb $4, %dil
    cmpb $0, %dil
    jne initialize
-   subq $8, %rsp
+      subq $8, %rsp
 
    initialize:
    pushq %rbp
@@ -94,35 +94,35 @@ main:
    movq $0, %r10
    movq $0, %rbx  # initializing pointers
    
-beginloop:
-   subq $8, %rcx
+   beginloop:
+      subq $8, %rcx
 
-   # checking what char to execute
-   movq (%rcx), %rax
-   beforecomp:
-   cmpq $46, (%rcx)
-   je BFprint
+      # checking what char to execute
+      movq (%rcx), %rax
+      beforecomp:
+      cmpq $46, (%rcx)
+      je BFprint
 
-   cmpq $44, (%rcx)
-   je BFscan
+      cmpq $44, (%rcx)
+      je BFscan
 
-   cmpq $43, (%rcx)
-   je BFincrement
-   
-   cmpq $45, (%rcx)
-   je BFdecrement
+      cmpq $43, (%rcx)
+      je BFincrement
+      
+      cmpq $45, (%rcx)
+      je BFdecrement
 
-   cmpq $62, (%rcx)
-   je BFincPointer
+      cmpq $62, (%rcx)
+      je BFincPointer
 
-   cmpq $60, (%rcx)
-   je BFdecPointer
+      cmpq $60, (%rcx)
+      je BFdecPointer
 
-   cmpq $91, (%rcx)
-   je BFstartloop
+      cmpq $91, (%rcx)
+      je BFstartloop
 
-   cmpq $93, (%rcx)
-   je BFendloop
+      cmpq $93, (%rcx)
+      je BFendloop
 
 end:
    popq %rbp
