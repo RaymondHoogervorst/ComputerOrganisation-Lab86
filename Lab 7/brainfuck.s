@@ -60,7 +60,7 @@ BFstartloop:
    movq %rdi, LOOPRETURNS(%r10)
    addq $8, %r10
    jmp beginloop
-BFskiploop:          # skipping loop if value is already zero
+BFskiploop:             # skipping loop if value is already zero
    incq %rdi
 
 	movb (%rdi), %r15b
@@ -72,7 +72,7 @@ BFskiploop:          # skipping loop if value is already zero
 
    jmp BFskiploop
 
-BFskipcheck:
+BFskipcheck:            # checking if corresponding closing ']' has been found
    cmpq $0, %r9
    je beginloop
    jmp BFskiploop
@@ -86,13 +86,13 @@ BFoutloop:
    jmp BFskipcheck
 
 
-BFendloop:
+BFendloop:                             # checking if loop can be exited
    movq VARIABLES(%rbx), %r15
    cmpq $0, VARIABLES(%rbx)
    je BFexitloop
    movq LOOPRETURNS-8(%r10), %rdi
    jmp beginloop
-BFexitloop:
+BFexitloop:                            # exiting loop
    subq $8, %r10
    jmp beginloop
 
@@ -105,12 +105,14 @@ brainfuck:
    movq $0, %rbx
 	decq %rdi
 
+   # loop iteration over the Brainfuck characters
 	beginloop:
 		incq %rdi
-      break:
+
+      # checking if the char read corresponds to any of the instructions
       cmpb $43, (%rdi)
       je BFincrement
-      notbroken:
+
       cmpb $45, (%rdi)
       je BFdecrement
 
@@ -135,8 +137,10 @@ brainfuck:
       cmpb $93, (%rdi)
       je BFendloop
 
+      # moving on if character is not recognized
 		jmp beginloop
 
+   # exiting
 	end:
 	movq %rbp, %rsp
 	popq %rbp
